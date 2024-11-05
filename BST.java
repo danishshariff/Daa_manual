@@ -1,87 +1,110 @@
-class BinarySearchTree { 
-    static class Node { 
-   int key;
-   Node left, right;
-   public Node(int item) { 
-   key = item; left = right = null;
+package daamanual;
+
+import java.util.Scanner;
+
+public class BinarySearchTree {
+    static class Node {
+        int data;
+        Node right, left;
+
+        public Node(int data) {
+            this.data = data;
+            right = left = null;
+        }
     }
-   }  
-    Node root;
-   BinarySearchTree() {
-    root = null; 
-   } 
-    void insert(int key) { 
-    root = insertRec(root, key); 
-   } 
-   Node insertRec(Node root, int key) { 
-    if (root == null) { 
-    root = new Node(key); 
-    return root; 
-   } 
-    if (key < root.key) { 
-    root.left = insertRec(root.left, key); 
-    } else if (key > root.key) { 
-    root.right = insertRec(root.right, key); 
-   } 
-    return root; 
-   } 
-   void delete(int key) { 
-    root = deleteRec(root, key); 
-   }
-   Node deleteRec(Node root, int key) { 
-    if (root == null) {
-    return root; 
-   } if (key < root.key) {
-    root.left = deleteRec(root.left, key); 
-   } else if (key > root.key) {
-    root.right = deleteRec(root.right, key); 
-   } else {
-    
-    if (root.left == null) { return root.right; 
-   } else if (root.right == null) { 
-    return root.left; 
-   }  
-    root.key = minValue(root.right); 
-   root.right = deleteRec( root.right, root.key);
-   } 
-   return root; 
-   } 
-    int minValue(Node root) { 
-    int minValue = root.key;
-    while (root.left != null) { 
-    minValue = root.left.key; 
-    root = root.left; 
-   } return minValue; 
-   } 
-   void inorder() {
-    inorderRec(root); 
-   }
-   void inorderRec(Node root) { 
-    if (root != null) { 
-    inorderRec(root.left); 
-   System.out.print(root.key + " "); 
-    inorderRec(root.right); 
-   }
-   }  
-   public static void main(String[] args) { 
-    BinarySearchTree tree = new BinarySearchTree(); 
-   tree.insert(50); 
-   tree.insert(30); 
-   tree.insert(20); 
-   tree.insert(40); 
-   tree.insert(70); 
-   tree.insert(60); 
-   tree.insert(80);
-    System.out.println("Inorder traversal:"); 
-   tree.inorder(); 
-   System.out.println();  
-   System.out.println("Delete 20:"); 
-   tree.delete(20); 
-   tree.inorder();
-   System.out.println(); 
-   System.out.println("Delete 30:");
-   tree.delete(30); 
-   tree.inorder(); 
-    System.out.println(); 
-    } 
-   }
+
+    public static Node insert(Node root, int data) {
+        if (root == null) {
+            return new Node(data);
+        }
+
+        if (data < root.data) {
+            root.left = insert(root.left, data);
+        } else {
+            root.right = insert(root.right, data);
+        }
+
+        return root;
+    }
+
+    public static Node createTree(Node root, Scanner scanner) {
+        System.out.println("Enter the data: ");
+        int d = scanner.nextInt();
+        root = insert(root, d);
+        return root;
+    }
+
+    public static Node delete(Node root, int data) {
+        if (root == null) {
+            return null;
+        }
+
+        if (data < root.data) {
+            root.left = delete(root.left, data);
+        } else if (data > root.data) {
+            root.right = delete(root.right, data);
+        } else {
+            if (root.left == null) {
+                return root.right;
+            } else if (root.right == null) {
+                return root.left;
+            }
+
+            root.data = minVal(root.right);
+            root.right = delete(root.right, root.data);
+        }
+
+        return root;
+    }
+
+    public static int minVal(Node root) {
+        int mini = root.data;
+        while (root.left != null) {
+            mini = root.left.data;
+            root = root.left;
+        }
+        return mini;
+    }
+
+    public static void printTree(Node root) {
+        if (root == null) return;
+        printTree(root.left);
+        System.out.print(root.data + " ");
+        printTree(root.right);
+    }
+
+    public static void main(String[] args) {
+        Node root = null;
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter the number of elements to insert:");
+        int n = scanner.nextInt();
+
+        for (int i = 0; i < n; i++) {
+            root = createTree(root, scanner);
+        }
+
+        System.out.println("BST in in-order traversal:");
+        printTree(root);
+        System.out.println();
+
+        // Loop for multiple deletions
+        while (true) {
+            System.out.println("Enter the value you want to delete (-1 to stop):");
+            int key = scanner.nextInt();
+            
+            // Exit condition for the deletion loop
+            if (key == -1) {
+                break;
+            }
+
+            root = delete(root, key);
+
+            System.out.println("BST after deletion:");
+            printTree(root);
+            System.out.println();
+        }
+
+        scanner.close();
+    }
+}
