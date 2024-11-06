@@ -62,7 +62,7 @@ public class MErgeSort {
         for (int i = 1; i <= n; i++) {
             int[] arr = generateRandomArray(i);
 
-            System.out.print("Array size " + i + ": ");
+            System.out.print("Original Array of size " + i + ": ");
             for (int ele : arr) {
                 System.out.print(ele + " ");
             }
@@ -71,6 +71,12 @@ public class MErgeSort {
             long startTime = System.nanoTime();
             mergeSort(arr, 0, i - 1);
             long endTime = System.nanoTime();
+
+            System.out.print("Sorted Array of size " + i + ": ");
+            for (int ele : arr) {
+                System.out.print(ele + " ");
+            }
+            System.out.println();
 
             System.out.println("Execution time for sorting " + i + " elements: " + (endTime - startTime) + " nanoseconds\n");
         }
