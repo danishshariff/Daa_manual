@@ -6,19 +6,16 @@ import java.util.Scanner;
 /* The average case time complexity of quickSort is O(N*LogN) */
 /* Plot a graph between N -> Input size (1, 2, 3, 4,... 10) and Time Taken to sort using quickSort */
 
-public class quickSort {
-	
-	
-	public static void quicksort(int[] arr, int low, int high) {
-		if (low < high) {
-			int pivotIdx = partition(arr, low, high); // Returns the pivot's correct position
-			quicksort(arr, low, pivotIdx - 1);
-			quicksort(arr, pivotIdx + 1, high);
-		}
-	}
-	
-	
-	
+public class QuickSort {
+    
+    public static void quicksort(int[] arr, int low, int high) {
+        if (low < high) {
+            int pivotIdx = partition(arr, low, high); // Returns the pivot's correct position
+            quicksort(arr, low, pivotIdx - 1);
+            quicksort(arr, pivotIdx + 1, high);
+        }
+    }
+    
     public static int partition(int[] arr, int low, int high) {
         int pivot = arr[high];
         int i = low - 1;
@@ -42,7 +39,6 @@ public class quickSort {
         return i;
     }
 
-
     public static int[] generateRandomArray(int n) {
         int[] arr = new int[n];
         Random random = new Random();
@@ -61,7 +57,7 @@ public class quickSort {
         for (int i = 1; i <= n; i++) {
             int[] arr = generateRandomArray(i);
 
-            System.out.print("Array size " + i + ": ");
+            System.out.print("Original Array of size " + i + ": ");
             for (int ele : arr) {
                 System.out.print(ele + " ");
             }
@@ -70,6 +66,12 @@ public class quickSort {
             long startTime = System.nanoTime(); 
             quicksort(arr, 0, i - 1);
             long endTime = System.nanoTime(); 
+
+            System.out.print("Sorted Array of size " + i + ": ");
+            for (int ele : arr) {
+                System.out.print(ele + " ");
+            }
+            System.out.println();
 
             System.out.println("Execution time for sorting " + i + " elements: " + (endTime - startTime) + " nanoseconds\n");
         }
