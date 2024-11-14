@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Graph {
     public static void bfs(int[][] adj, int st, int vertices) {
-        // Use a boolean array for visited nodes
+        
         boolean[] visited = new boolean[vertices];
         Queue<Integer> q = new LinkedList<>();
 
